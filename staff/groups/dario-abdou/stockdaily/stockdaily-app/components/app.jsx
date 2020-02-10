@@ -20,6 +20,7 @@ class App extends Component {
     }
 
     handleLogin = credentials =>  {
+        
             authenticateUser(credentials, (error, token) => {
                 if(error) {
                     //TODO Handle Error
@@ -71,18 +72,14 @@ class App extends Component {
     }
 
     handleOnPositionSubmit = position => {
-        const { symbol } = position
         const { token } = sessionStorage
         setNewPosition(position, token, (error, success) => {
             if(error) {
                 //TODO Handle Error
             } else {
                 console.log(success.status)
-
-                calculateProfit(symbol, token, (error, profit) => console.log(`${profit}`))
             }
         })
-
     }
 
     render() {

@@ -9,19 +9,15 @@ function searchURL(query) {
 function detailsURL() {
     let symbols = ''
 
-    for(let i = 0; i < arguments.length; i++) {
-        if(arguments[i + 1]) {
-            symbols += `${arguments[i]},`
+    aguments.forEach((element, index) => {
+        if(arguments[index + 1]) {
+            symbols += `${element},`
         } else {
-            symbols += arguments[i]
+            symbols += element
         }
-    }
+    })
 
     return `${stockAPIURL}stock?symbol=${symbols}&api_token=${apiKey}`
-}
-
-function historicalURL(symbol, date) {
-    return `${stockAPIURL}history_multi_single_day?symbol=${symbol}&date=${date}&api_token=${apiKey}`
 }
 
 function retrieveURL(token) {
