@@ -1,0 +1,1 @@
+ReactDOM.render(<App title="stockDaily" />, document.querySelector('#root'))
