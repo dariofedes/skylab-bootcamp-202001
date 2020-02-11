@@ -4,16 +4,21 @@ function searchNews (query, callback) {
     
     call(`https://newsapi.org/v2/everything?q=${query}&apiKey=6bd7c136390a4b8aba315ecb0395049e`, undefined,
     (error, response) => {
-        if (error) return callback(error)
+        if(error) {
+            callback(error)  
+        } 
 
-        if (response.content) {
-            const { error: _error, news } = JSON.parse(response.content)
-            // , { error: _error } = news
+        else if(response.status === 401) {
+            const { error: _error } = JSON.parse(response.content)
+            callback(_error)
             
-            if(_error) return callback(new Error(_error))
+        } else if(response.status === 400) {
+            const { error: _error } = JSON.parse(response.content)
+            callback(_error)
 
-            console.log(error)
+        } else if(response.status === 200) {
+            const { news } = JSON.parse(response.content)
             callback(undefined, news)
-        }
+        }       
     })
 }
