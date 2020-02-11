@@ -50,7 +50,7 @@ function calculateProfit(company, token, callback) {
 
                                         absoluteTotalNetProfit = absoluteTotalNetProfit.toFixed(2)
 
-                                        callback(undefined, { absoluteTotalNetProfit: parseFloat(absoluteTotalNetProfit), relativeTotalNetProfit: relativeTotalNetProfit.toFixed(2), totalInvested, total })
+                                        callback(undefined, { absoluteTotalNetProfit: parseFloat(absoluteTotalNetProfit), relativeTotalNetProfit: relativeTotalNetProfit.toFixed(2), totalInvested, total: total.toFixed(2) })
                                     }
                                 }
                             })

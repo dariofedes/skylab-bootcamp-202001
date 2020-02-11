@@ -1,18 +1,18 @@
 const { Component } = React
 
 class App extends Component {
-    state = { view: 'login', companies: undefined, company: undefined, userName: undefined }
+    state = { view: 'login', companies: undefined, company: undefined, userName: undefined, investments: undefined, logged: false }
 
     componentWillMount() {
         const { token } = sessionStorage
         if(token) {
             retrieveUser(token, (error, userInfo) => {
                 if(error) {
-                    this.setState({ view: 'login' })
+                    this.setState({ view: 'login', logged: false })
                 } else {
                     const { name, surname } = userInfo
 
-                    this.setState({ userName: { name, surname }, view: 'search' })
+                    this.setState({ userName: { name, surname }, view: 'search', logged: true })
 
                 }
             })
@@ -25,7 +25,7 @@ class App extends Component {
                     //TODO Handle Error
                 } else {
                     sessionStorage.token = token
-                    this.setState({ view: 'search' })
+                    this.setState({ view: 'search', logged: true })
                 }    
             })
     }
@@ -57,20 +57,31 @@ class App extends Component {
             if(error) {
                 //TODO Handle Error
             } else {
-                this.setState({ companies, company: undefined})
+                this.setState({ companies, company: undefined, investments: undefined})
             }
         })
     }
 
     handleOnToDetails = symbol => {
-        this.setState({ company: symbol, companies: undefined })
+        this.setState({ company: symbol, companies: undefined, investments: undefined })
+    }
+
+    handleOnToInvestments = () => {
+        const{ token } = sessionStorage
+
+        retrieveInvestmentsDetails(token, (error, investments) => {
+            this.setState({ investments, companies: undefined, company: undefined })
+        })
     }
 
     render() {
-        const { props: { title }, state: {view, companies, company, profit}, handleSearchSubmit, handleOnToDetails, handleOnToLogin, handleOnToRegister, handleLogin, handleRegister, handleOnPositionSubmit }= this
+        const { state: {view, companies, company, profit, investments, logged}, handleSearchSubmit, handleOnToDetails, handleOnToLogin, handleOnToRegister, handleLogin, handleRegister, handleOnPositionSubmit, handleOnToInvestments, handleOnLogout, handleOnToAccount }= this
 
-        return <main>
-                <h1>{title}</h1>
+        return <main className="app">
+
+                <Header logged={logged} title="stockDaily" onToInvestments={handleOnToInvestments} onToLogin={handleOnToLogin} onToRegister={handleOnToRegister} onLogout={handleOnLogout} onToAccount={handleOnToAccount} />
+
+                {/* {view === 'search' && <button onClick={handleOnToInvestments}>View my investments</button>} */}
 
                 {view === 'login' && <Login onSubmit={handleLogin} onToRegister={handleOnToRegister} />}
                 {view === 'register' && <Register onSubmit={handleRegister} onToLogin={handleOnToLogin} />}
@@ -80,6 +91,8 @@ class App extends Component {
                 {view === 'search' && companies && <Results results={companies} onToDetails={handleOnToDetails} />}
                 
                 {view === 'search' && company && <Details symbol={company} />}
+
+                {view === 'search' && investments && <Investments onToDetails={handleOnToDetails} investments={investments} />}
             </main>
     }
 }
