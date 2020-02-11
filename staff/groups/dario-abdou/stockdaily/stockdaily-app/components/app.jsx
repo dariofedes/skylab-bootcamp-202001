@@ -55,38 +55,17 @@ class App extends Component {
             if(error) {
                 //TODO Handle Error
             } else {
-                this.setState({ companies })
+                this.setState({ companies, company: undefined})
             }
         })
     }
 
     handleOnToDetails = symbol => {
-        searchDetails(symbol, (error, details) => {
-            if(error) {
-                //TODO Handle Error
-            } else {
-                this.setState({ company: details, companies: undefined })
-            }
-        })
-    }
-
-    handleOnPositionSubmit = position => {
-        const { symbol } = position
-        const { token } = sessionStorage
-        setNewPosition(position, token, (error, success) => {
-            if(error) {
-                //TODO Handle Error
-            } else {
-                console.log(success.status)
-
-                calculateProfit(symbol, token, (error, profit) => console.log(`${profit}`))
-            }
-        })
-
+        this.setState({ company: symbol, companies: undefined })
     }
 
     render() {
-        const { props: { title }, state: {view, companies, company}, handleSearchSubmit, handleOnToDetails, handleOnToLogin, handleOnToRegister, handleLogin, handleRegister, handleOnPositionSubmit }= this
+        const { props: { title }, state: {view, companies, company, profit}, handleSearchSubmit, handleOnToDetails, handleOnToLogin, handleOnToRegister, handleLogin, handleRegister, handleOnPositionSubmit }= this
 
         return <main>
                 <h1>{title}</h1>
@@ -98,7 +77,7 @@ class App extends Component {
 
                 {view === 'search' && companies && <Results results={companies} onToDetails={handleOnToDetails} />}
                 
-                {view === 'search' && company && <Details details={company} onPositionSubmit={handleOnPositionSubmit} />}
+                {view === 'search' && company && <Details symbol={company} />}
             </main>
     }
 }

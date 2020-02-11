@@ -1,32 +1,78 @@
-function Details({ details: {symbol, name, currency, price, price_open, close_yesterday, day_high, day_low, day_change, change_pct, stock_exchange_long, last_trade_time, gmt_offset }, onPositionSubmit }) {
-    return <section>
-        <h3>{name}</h3>
-        <p>{change_pct}%</p>
-        <p>{last_trade_time}</p>
-        <p>Price: {price}</p>
-        <p>Open: {price_open}</p>
-        <p>High: {day_high}</p>
-        <p>Low: {day_low}</p>
-        <p>Close Yesterday: {close_yesterday}</p>
-        <p>Info</p>
-        <p>Symbol: {symbol}</p>
-        <p>Market: {stock_exchange_long}</p>
-        <p>Currency: {currency}</p>
-        <p>Timezone: GMT{(parseInt(gmt_offset) / 60) / 60}</p>
-        <form onSubmit={event => {
-            event.preventDefault()
+const { Component } = React
 
-            const position = {
-                amount: event.target.amount.value,
-                date: event.target.date.value,
-                symbol: symbol
+class Details extends Component {
+
+    state = { detail: undefined, profit: undefined, newPositionForm: false }
+
+    componentWillMount() {
+        const { props: { symbol } } = this
+        retrieveDetails(symbol, (error, details) => {
+            if(error) {
+                //TODO Handling Error
+            } else {
+                this.setState({ detail: details })
+
+                const { token } = sessionStorage
+                calculateProfit(symbol, token, (error, profit) => {
+                    if(error) {
+                        //TODO Handle Error
+                    } else {
+                        this.setState({ profit })
+                    }
+                })
             }
+        })
+    }
 
-            onPositionSubmit(position)
-        }}>
-            <input type="date" name="date" />
-            <input type="number" name="amount" />
-            <button type="submit">Submit</button>
-        </form>
-    </section>
+    handleOnToNewPosition = () => {
+        this.setState({ newPositionForm: true })
+    }
+
+    handleOnNewPositionSubmit = position => {
+        const { props: { symbol } } = this
+        const { token } = sessionStorage
+
+        setNewPosition(position, token, (error, success) => {
+            if(error) {
+                //TODO Handle Error
+            } else {
+                calculateProfit(symbol, token, (error, profit) => {
+                    if(error) {
+                        //TODO Handle Error
+                    } else {
+                        this.setState({ profit, newPositionForm: false })
+                    }
+                })
+            }
+        })
+    }
+
+    render() {
+        if(this.state.detail){
+
+        const{ props: { symbol }, state: { detail: { name, change_pct, last_trade_time, price, price_open, day_high, day_low, close_yesterday, stock_exchange_long, currency, gmt_offset }, profit, newPositionForm }, handleOnNewPositionSubmit, handleOnToNewPosition } = this
+
+        return <section> 
+            <h3>{name}</h3>
+            <p>{change_pct}%</p>
+            {profit && <Profit profit={profit} />}
+            {!profit && <p>You have no open positions on this stock.</p>}
+            <button onClick={handleOnToNewPosition}>Add new position</button>
+            {newPositionForm && <NewPositionForm onPositionSubmit={handleOnNewPositionSubmit} symbol={symbol} />}
+            <p>{last_trade_time}</p>
+            <p>Price: {price}</p>
+            <p>Open: {price_open}</p>
+            <p>High: {day_high}</p>
+            <p>Low: {day_low}</p>
+            <p>Close Yesterday: {close_yesterday}</p>
+            <p>Info</p>
+            <p>Symbol: {symbol}</p>
+            <p>Market: {stock_exchange_long}</p>
+            <p>Currency: {currency}</p>
+            <p>Timezone: GMT{(parseInt(gmt_offset) / 60) / 60}</p>   
+        </section>
+        } else {
+            return <p>Loading...</p>
+        }
+    }
 }

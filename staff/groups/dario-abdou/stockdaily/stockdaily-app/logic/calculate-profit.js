@@ -15,42 +15,49 @@ function calculateProfit(company, token, callback) {
         } else {
             const { investments } = JSON.parse(response.content)
 
-            const positionIndex = investments.findIndex(element => element.company === company)
+            const positionIndex = investments.findIndex(element => element.company === company)   
 
-            const { positions } = investments[positionIndex];
+            if(positionIndex !== -1) {
+                const { positions } = investments[positionIndex];
             
-            (function getTotalNetProfit(array, symbol, index, callback){
-                const { amount, date } = array[index]
+                (function getTotalNetProfit(array, symbol, index, callback){
+                    const { amount, date } = array[index]
 
-                totalInvested += amount
+                    totalInvested += parseFloat(amount)
 
-                call(historicalURL(symbol, date), undefined, (error, response) => {
-                    if(error) {
-                        callback(error)
-                    } else {
-                        const { data } = JSON.parse(response.content)
-                        const { close: longPrice } = data[symbol]
-                        console.log(longPrice)
-                        call(detailsURL(symbol), undefined, (error, response) => {
-                            if(error) {
-                                callback(error)
-                            } else {
-                                const { price: currentValue } = (JSON.parse(response.content)).data[0]
-
-                                const netProfit = parseFloat(((parseFloat(amount) * parseFloat(currentValue)) / parseFloat(longPrice)) - parseFloat(amount))
-
-                                absoluteTotalNetProfit += parseFloat(netProfit)
-
-                                if(array[index + 1]){
-                                    getTotalNetProfit(array, symbol, index + 1, callback)
+                    call(historicalURL(symbol, date), undefined, (error, response) => {
+                        if(error) {
+                            callback(error)
+                        } else {
+                            const { data } = JSON.parse(response.content)
+                            const { close: longPrice } = data[symbol]
+                            call(detailsURL(symbol), undefined, (error, response) => {
+                                if(error) {
+                                    callback(error)
                                 } else {
-                                    callback(undefined, absoluteTotalNetProfit.toFixed(2))
+                                    const { price: currentValue } = (JSON.parse(response.content)).data[0]
+
+                                    const netProfit = parseFloat(((parseFloat(amount) * parseFloat(currentValue)) / parseFloat(longPrice)) - parseFloat(amount))
+
+                                    absoluteTotalNetProfit += parseFloat(netProfit)
+
+                                    if(array[index + 1]){
+                                        getTotalNetProfit(array, symbol, index + 1, callback)
+                                    } else {
+                                        const relativeTotalNetProfit = parseFloat(absoluteTotalNetProfit) * 100 / totalInvested
+
+                                        const total = parseFloat(absoluteTotalNetProfit) + parseFloat(totalInvested)
+
+                                        absoluteTotalNetProfit = absoluteTotalNetProfit.toFixed(2)
+
+                                        callback(undefined, { absoluteTotalNetProfit: parseFloat(absoluteTotalNetProfit), relativeTotalNetProfit: relativeTotalNetProfit.toFixed(2), totalInvested, total })
+                                    }
                                 }
-                            }
-                        })
-                    }
-                })
-            })(positions, company, 0, callback);
+                            })
+                        }
+                    })
+                })(positions, company, 0, callback);
+            }       
         }
     })
 }
