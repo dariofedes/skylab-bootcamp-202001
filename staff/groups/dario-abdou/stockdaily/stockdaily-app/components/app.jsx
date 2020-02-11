@@ -51,7 +51,9 @@ class App extends Component {
 
 
     handleSearchSubmit = (query) => {
-        searchCompanies(query, (error, companies) => {
+        const { token } = sessionStorage
+
+        searchCompanies(query, token, (error, companies) => {
             if(error) {
                 //TODO Handle Error
             } else {

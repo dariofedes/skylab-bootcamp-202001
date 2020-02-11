@@ -1,4 +1,4 @@
-function NewPositionForm({ onPositionSubmit, symbol }) {
+function NewPositionForm({ onPositionSubmit, symbol, onCancel }) {
         const today = new Date
         
         const year = today.getFullYear()
@@ -21,6 +21,7 @@ function NewPositionForm({ onPositionSubmit, symbol }) {
                 <input type="date" name="date" max={todayDate} />
                 <input type="number" name="amount" />
                 <button type="submit">Submit</button>
+                <button onClick={onCancel}>Cancel</button>
             </form>
             
 }

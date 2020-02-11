@@ -47,10 +47,14 @@ class Details extends Component {
         })
     }
 
+    handleOnCancel = () => {
+        this.setState({ newPositionForm: false })
+    }
+
     render() {
         if(this.state.detail){
 
-        const{ props: { symbol }, state: { detail: { name, change_pct, last_trade_time, price, price_open, day_high, day_low, close_yesterday, stock_exchange_long, currency, gmt_offset }, profit, newPositionForm }, handleOnNewPositionSubmit, handleOnToNewPosition } = this
+        const{ props: { symbol }, state: { detail: { name, change_pct, last_trade_time, price, price_open, day_high, day_low, close_yesterday, stock_exchange_long, currency, gmt_offset }, profit, newPositionForm }, handleOnNewPositionSubmit, handleOnToNewPosition, handleOnCancel } = this
 
         return <section> 
             <h3>{name}</h3>
@@ -58,7 +62,7 @@ class Details extends Component {
             {profit && <Profit profit={profit} />}
             {!profit && <p>You have no open positions on this stock.</p>}
             <button onClick={handleOnToNewPosition}>Add new position</button>
-            {newPositionForm && <NewPositionForm onPositionSubmit={handleOnNewPositionSubmit} symbol={symbol} />}
+            {newPositionForm && <NewPositionForm onPositionSubmit={handleOnNewPositionSubmit} symbol={symbol} onCancel={handleOnCancel} />}
             <p>{last_trade_time}</p>
             <p>Price: {price}</p>
             <p>Open: {price_open}</p>
