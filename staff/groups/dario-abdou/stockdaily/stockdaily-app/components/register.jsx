@@ -39,14 +39,4 @@ function Register({ onSubmit, onToLogin, error }) {
                 {error && <Feedback level='error' message={error} />}
             </div>
         </section>
-
-    // __locateFeedbackInContainer__(feedback) {
-    //     var button = this.container.querySelector('button')
-
-    //     this.container.querySelector('form').insertBefore(feedback.container, button)
-    // }
-
-    // __removeFeedbackFromContainer__(feedback) {
-    //     setTimeout(() => this.container.querySelector('form').removeChild(feedback.container), 3000)
-    // }
 }

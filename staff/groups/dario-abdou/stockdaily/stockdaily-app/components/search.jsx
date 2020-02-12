@@ -1,12 +1,12 @@
 function Search({ onSearchSubmit }) {
-    return <form onSubmit={event => {
+    return <form className="search" onSubmit={event => {
         event.preventDefault()
 
         const query = event.target.query.value
 
         onSearchSubmit(query)
     }}>
-            <input type="text" name="query" />
-            <button type="submit">Search</button>
+            <input className="search__query" type="text" name="query" />
+            <button className="search__submit" type="submit"><i className="fas fa-search search__icon"></i></button>
         </form>
 }

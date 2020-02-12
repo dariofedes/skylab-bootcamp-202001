@@ -2,6 +2,7 @@ function Header({title, onToInvestments, onToAccount, onLogout, logged, onToLogi
     return <header className="header">
             <a href="" className="header__home"><h1 className="header__logo">{title}</h1></a>
             <nav className="header__menu menu">
+                <i className="fas fa-bars menu__burger"></i>
                     {logged && <ul className="menu__list">
                             <li className="menu__link" onClick={() => {
                                 onToInvestments()

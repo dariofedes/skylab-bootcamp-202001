@@ -1,0 +1,42 @@
+.header
+    margin-top: .5rem
+    display: flex
+    justify-content: space-between
+    align-items: center
+    width: 100%
+    height: 15%
+    box-sizing: border-box
+    &__home
+        text-decoration: none
+        font-size: 1.5rem
+        &:hover
+            cursor: pointer
+    &__logo
+        color: #71DB77
+        font-family: 'Gugi'
+        margin-left: 1rem
+.menu
+    &__list
+        padding-left: 40px
+        height: 100vh
+        position: absolute
+        top: 0px
+        // right: calc((60% + 40px) * -1)
+        right: 0px
+        width: 60%
+        display: none
+        list-style: none
+        z-index: 99
+        background-color: #b8ffbc
+        flex-direction: column
+        padding-top: 3rem
+    &__link
+        font-size: 1.5rem
+        margin: 1rem
+        color: #2B2B2B
+    &__burger
+        margin-right: 1rem
+        font-size: 2rem
+        &:hover
+            cursor: pointer
+        
