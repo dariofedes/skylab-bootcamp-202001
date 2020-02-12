@@ -74,6 +74,11 @@ class App extends Component {
         })
     }
 
+    handleOnLogout = () => {
+        sessionStorage.clear()
+        this.setState({view: 'login', logged: false})
+    }
+
     render() {
         const { state: {view, companies, company, profit, investments, logged}, handleSearchSubmit, handleOnToDetails, handleOnToLogin, handleOnToRegister, handleLogin, handleRegister, handleOnPositionSubmit, handleOnToInvestments, handleOnLogout, handleOnToAccount }= this
 
@@ -81,9 +86,8 @@ class App extends Component {
 
                 <Header logged={logged} title="stockDaily" onToInvestments={handleOnToInvestments} onToLogin={handleOnToLogin} onToRegister={handleOnToRegister} onLogout={handleOnLogout} onToAccount={handleOnToAccount} />
 
-                {/* {view === 'search' && <button onClick={handleOnToInvestments}>View my investments</button>} */}
-
                 {view === 'login' && <Login onSubmit={handleLogin} onToRegister={handleOnToRegister} />}
+                
                 {view === 'register' && <Register onSubmit={handleRegister} onToLogin={handleOnToLogin} />}
 
                 {view === 'search' && <Search onSearchSubmit={handleSearchSubmit} />}

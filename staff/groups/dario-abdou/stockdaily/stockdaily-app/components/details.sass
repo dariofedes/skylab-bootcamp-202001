@@ -1,0 +1,74 @@
+.details
+    display: flex
+    flex-direction: column
+    align-items: center
+    width: 100%
+    &>*
+        margin: 1.5rem 0
+    &__header
+        width: 80%
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        margin-bottom: .8rem
+        
+    &__title
+        font-size: 2rem
+        font-weight: 700
+        text-align: center
+    &__relative-change
+        font-size: 1.2rem
+        &--up
+            color: #4fc855
+        &--down
+            color: #E66363 
+    &__change-icon
+        &--up
+            color: #4fc855
+        &--down
+            color: #E66363 
+    &__positions
+        display: flex
+        width: 100%
+        flex-direction: column
+        align-items: center
+    &__no-positions
+        font-weight: 300
+        font-size: .9rem
+    &__new-position
+        height: 2rem
+        outline: none
+        margin-top: .7rem
+        width: 50%
+        font-size: 1rem
+        border: 1px solid white
+        border-radius: 10px
+        background-color: transparent
+    &__section
+        background: linear-gradient(#b4b4b4, #EDEDED)
+        width: 90%
+        padding: 1rem
+        border-radius: 10px
+        box-sizing: border-box
+    &__subtitle
+        color: #2B2B2B
+        font-size: 1.5rem
+        text-decoration: underline
+        margin-bottom: 1rem
+    &__key
+        margin-top: .5rem
+        color: #2B2B2B
+        font-weight: 300
+        font-size: 1.2rem
+    &__value
+        font-size: 1.2rem
+        color: #2B2B2B
+        font-weight: 400
+        &--up
+            color: #4fc855
+        &--down
+            color: #E66363 
+                
+
+    

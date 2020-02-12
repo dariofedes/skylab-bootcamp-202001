@@ -7,7 +7,7 @@ function NewPositionForm({ onPositionSubmit, symbol, onCancel }) {
         
         const todayDate = `${year}-${month}-${day}`
 
-    return <form onSubmit={event => {
+    return <form className="new-position" onSubmit={event => {
                 event.preventDefault()
 
                 const position = {
@@ -18,10 +18,14 @@ function NewPositionForm({ onPositionSubmit, symbol, onCancel }) {
 
                 onPositionSubmit(position)
             }}>
-                <input type="date" name="date" max={todayDate} />
-                <input type="number" name="amount" />
-                <button type="submit">Submit</button>
-                <button onClick={onCancel}>Cancel</button>
+                <div className="new-position__inputs">
+                    <input className="new-position__input" placeholder="Date" type="date" name="date" max={todayDate} />
+                    <input className="new-position__input" placeholder="Amount" type="number" name="amount" />
+                </div>
+                <div className="new-position__actions">
+                    <button className="new-position__button" type="submit">Submit</button>
+                    <button className="new-position__button" onClick={onCancel}>Cancel</button>
+                </div>
             </form>
             
 }

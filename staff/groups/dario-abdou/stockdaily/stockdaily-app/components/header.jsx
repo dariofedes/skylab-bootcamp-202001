@@ -2,9 +2,12 @@ function Header({title, onToInvestments, onToAccount, onLogout, logged, onToLogi
     return <header className="header">
             <a href="" className="header__home"><h1 className="header__logo">{title}</h1></a>
             <nav className="header__menu menu">
-                <i className="fas fa-bars menu__burger"></i>
+                <i className="fas fa-bars menu__burger" onClick={() => {
+                    document.querySelector('.menu__list').classList.toggle('menu__list--show')
+                }}></i>
                     {logged && <ul className="menu__list">
                             <li className="menu__link" onClick={() => {
+                                document.querySelector('.menu__list').classList.toggle('menu__list--show')
                                 onToInvestments()
                             }}>
                                 My investments
@@ -15,6 +18,7 @@ function Header({title, onToInvestments, onToAccount, onLogout, logged, onToLogi
                                 Account
                             </li>
                             <li className="menu__link" onClick={() => {
+                                document.querySelector('.menu__list').classList.toggle('menu__list--show')
                                 onLogout()
                             }}>
                                 Logout
@@ -22,11 +26,13 @@ function Header({title, onToInvestments, onToAccount, onLogout, logged, onToLogi
                         </ul>}
                     {!logged && <ul className="menu__list">
                             <li className="menu__link" onClick={() => {
+                                document.querySelector('.menu__list').classList.toggle('menu__list--show')
                                 onToLogin()
                             }}>
                                 Login
                             </li>
                             <li className="menu__link" onClick={() => {
+                                document.querySelector('.menu__list').classList.toggle('menu__list--show')
                                 onToRegister()
                             }}>
                                 Register
