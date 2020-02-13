@@ -1,3 +1,11 @@
+/**
+ * logic - authenticate-user
+ * @param {string} company - the id symbol of a company
+ * @param {string} token - User autorization
+ * @param {function} callback - function 
+ * @returns {object} profit - keys: absoluteTotalNetProfit, relativeTotalNetProfit, totalInvested, total
+ */
+
 function calculateProfit(company, token, callback) {
     const userSub = getSub(token)
 

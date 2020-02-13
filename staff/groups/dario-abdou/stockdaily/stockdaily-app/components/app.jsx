@@ -2,7 +2,7 @@ const { Component } = React
 
 class App extends Component {
     state = { view: undefined, companies: undefined, company: undefined, userName: undefined, investments: undefined, logged: false, error: undefined }
-
+    
     componentWillMount() {
         const { token } = sessionStorage
         if(token) {
@@ -26,6 +26,7 @@ class App extends Component {
                         this.handleOnToInvestments()
                         this.setState({ view: 'search' })
                     } else if(!address.hash) {
+                        address.clear()
                         this.setState({ view: 'search' })
                     } else if(address.hash.startsWith('stock/')) {
                         let [ , id ] = address.hash.split('/')[1]
@@ -131,7 +132,7 @@ class App extends Component {
 
         address.hash = 'login'
         
-        this.setState({view: 'login', logged: false})
+        this.setState({view: 'login', logged: false, companies: undefined, company: undefined, investments: undefined})
     }
 
     render() {

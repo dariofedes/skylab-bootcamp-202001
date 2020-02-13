@@ -1,3 +1,10 @@
+/**
+ * logic - authenticate-user
+ * @param {object} credentials - object. keys: username & password typeof string 
+ * @param {function} callback - function 
+ * @returns {string} token - credentials acces
+ */
+
 function authenticateUser(credentials, callback) {
     call('https://skylabcoders.herokuapp.com/api/v2/users/auth', {
         method: 'POST',

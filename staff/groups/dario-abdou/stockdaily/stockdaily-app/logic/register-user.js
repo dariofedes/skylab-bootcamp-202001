@@ -1,3 +1,9 @@
+/**
+ * logic - authenticate-user
+ * @param {object} user - user data, keys: name, surname, username, password
+ * @param {function} callback - function 
+ */
+
 function registerUser(user, callback) {
     
     call('https://skylabcoders.herokuapp.com/api/v2/users', {
