@@ -1,4 +1,4 @@
-describe('calculateProfit()', () => {
+describe('setNewPosition()', () => {
     let user = {}
     let auxUser = {}
     let userToken
@@ -12,7 +12,7 @@ describe('calculateProfit()', () => {
         auxUser.password = user.password
     })
 
-    describe('on existing positions', () => {
+    describe('on valid position', () => {
         beforeEach(done => {
             call(`https://skylabcoders.herokuapp.com/api/v2/users`, {
                 method: 'POST',
@@ -38,7 +38,7 @@ describe('calculateProfit()', () => {
                                 headers: {
                                     'Content-Type': 'application/json',
                                     'Authorization': `Bearer ${token}`
-                                }, body: JSON.stringify({investments: [{company: 'AAPL', positions: [{date: '2020-01-13', amount: '1000'}]}]})
+                                }, body: JSON.stringify({investments: []})
                             }, (error, response) => {
                                 if(error) {
                                     return done(error)
@@ -52,16 +52,12 @@ describe('calculateProfit()', () => {
             })
         })
 
-        it('should calculate the profit', done => {
-            calculateProfit('AAPL', userToken, (error, profit) => {
-                    expect(profit).toBeDefined()
-                    expect(profit).toBeInstanceOf(Object)
-                    expect(profit.totalInvested).toBe(1000)
-                    expect(profit.absoluteTotalNetProfit).toBeDefined()
-                    expect(profit.total).toBeDefined()
-                    expect(profit.relativeTotalNetProfit).toBeDefined()
-
-                    done()
+        it('should set a new position', done => {
+            setNewPosition({ date: '2020-01-13', amount: '1000', symbol: 'AAPL' }, userToken, (error, response) => {
+                expect(error).toBeUndefined()
+                expect(response.status).toBe(204)
+                
+                done()
             })
         })
     })
