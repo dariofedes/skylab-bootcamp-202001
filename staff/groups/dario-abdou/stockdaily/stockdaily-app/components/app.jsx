@@ -30,10 +30,10 @@ class App extends Component {
                     } else if(location.href.split('#')[1] === 'investments'){
                         this.handleOnToInvestments()
                         this.setState({ view: 'search' })
-                    } else if(location.href.split('#')[1].split('/')[0] === 'stock') {
-                        this.handleOnToDetails(location.href.split('#')[1].split('/')[1])
                     } else if(!location.href.split('#')[1]) {
                         this.setState({ view: 'search' })
+                    } else if(location.href.split('#')[1].split('/')[0] === 'stock') {
+                        this.handleOnToDetails(location.href.split('#')[1].split('/')[1])
                     } else {
                         this.showFeedback('Invalid url')
                     }
@@ -138,7 +138,7 @@ class App extends Component {
         const url = `${protocol}//${host}${pathname}#stock/${symbol}`
 
         history.pushState({ path: url }, '', url)
-        this.setState({ company: symbol, companies: undefined, investments: undefined })
+        this.setState({view: 'search', company: symbol, companies: undefined, investments: undefined })
     }
 
     handleOnToInvestments = () => {
