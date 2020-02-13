@@ -8,15 +8,44 @@ class App extends Component {
         if(token) {
             retrieveUser(token, (error, userInfo) => {
                 if(error) {
+                    const { protocol, host, pathname } = location
+
+                    const url = `${protocol}//${host}/${pathname}#login`
+
+                    history.pushState({ path: url }, '', url)
+
+                    sessionStorage.clear()
                     this.setState({ view: 'login', logged: false })
                 } else {
-                    const { name, surname } = userInfo
-
-                    this.setState({ userName: { name, surname }, view: 'search', logged: true })
-
+                    let { name, surname } = userInfo
+                    this.setState({ userName: { name, surname }, logged: true  })
+                    if(location.search) {
+                        this.setState({ view: 'search' })
+                        let query = location.search.split('=')[1]
+                        
+                        this.handleSearchSubmit(query)
+                    } else if(location.href.split('#')[1] === 'login' || location.href.split('#')[1] === 'signup') {
+                        this.setState({ view: location.href.split('#')[1], logged: false })
+                        sessionStorage.clear()
+                    } else if(location.href.split('#')[1] === 'investments'){
+                        this.handleOnToInvestments()
+                        this.setState({ view: 'search' })
+                    } else if(location.href.split('#')[1].split('/')[0] === 'stock') {
+                        this.handleOnToDetails(location.href.split('#')[1].split('/')[1])
+                    } else if(!location.href.split('#')[1]) {
+                        this.setState({ view: 'search' })
+                    } else {
+                        this.showFeedback('Invalid url')
+                    }
                 }
             })
         } else {
+            const { protocol, host, pathname } = location
+
+            const url = `${protocol}//${host}${pathname}#login`
+
+            history.pushState({ path: url }, '', url)
+
             this.setState({ view: 'login', logged: false })
         }      
     }
@@ -34,6 +63,12 @@ class App extends Component {
                 if(error) {
                    this.showFeedback(error)
                 } else {
+                    const { protocol, host, pathname } = location
+
+                    const url = `${protocol}//${host}${pathname}`
+
+                    history.pushState({ path: url }, '', url)
+
                     sessionStorage.token = token
                     this.setState({ view: 'search', logged: true })
                 }    
@@ -41,6 +76,12 @@ class App extends Component {
     }
 
     handleOnToRegister = () => {
+        const { protocol, host, pathname } = location
+
+        const url = `${protocol}//${host}${pathname}#signup`
+
+        history.pushState({ path: url }, '', url)
+
         this.setState({ view: 'register' })
     }
 
@@ -50,12 +91,24 @@ class App extends Component {
                 if(error) {
                     this.showFeedback(error)
                 } else {
+                    const { protocol, host, pathname } = location
+
+                    const url = `${protocol}//${host}/${pathname}#login`
+
+                    history.pushState({ path: url }, '', url)
+                    
                     this.setState({ view: 'login' })
                 }
             })
     }
 
     handleOnToLogin = () => {
+        const { protocol, host, pathname } = location
+
+        const url = `${protocol}//${host}${pathname}#login`
+
+        history.pushState({ path: url }, '', url)
+
         this.setState({ view: 'login' })
     }
 
@@ -67,17 +120,35 @@ class App extends Component {
             if(error) {
                 this.showFeedback(error)
             } else {
+                const { protocol, host, pathname } = location
+
+                const url = `${protocol}//${host}${pathname}?q=${query}`
+
+                history.pushState({ path: url }, '', url)
+
+
                 this.setState({ companies, company: undefined, investments: undefined})
             }
         })
     }
 
     handleOnToDetails = symbol => {
+        const { protocol, host, pathname } = location
+
+        const url = `${protocol}//${host}${pathname}#stock/${symbol}`
+
+        history.pushState({ path: url }, '', url)
         this.setState({ company: symbol, companies: undefined, investments: undefined })
     }
 
     handleOnToInvestments = () => {
         const{ token } = sessionStorage
+
+        const { protocol, host, pathname } = location
+
+        const url = `${protocol}//${host}${pathname}#investments`
+
+        history.pushState({ path: url }, '', url)
 
         retrieveInvestmentsDetails(token, (error, investments) => {
             if(error) {
@@ -90,6 +161,13 @@ class App extends Component {
 
     handleOnLogout = () => {
         sessionStorage.clear()
+        const{ token } = sessionStorage
+
+        const { protocol, host, pathname } = location
+
+        const url = `${protocol}//${host}${pathname}#login`
+
+        history.pushState({ path: url }, '', url)
         this.setState({view: 'login', logged: false})
     }
 
