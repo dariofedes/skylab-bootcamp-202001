@@ -11,12 +11,16 @@ function searchCompanies(query, token, callback) {
     }, (error, response) => {
         if(error){
             callback(error)
+        } else if(response.status === 401) {
+            callback(new Error('Authorization error, please login again'))
         } else {
             const { investments } = JSON.parse(response.content)
 
             call(searchURL, undefined, (error, response) => {
                 if(error) {
                     callback(error)
+                } else if(!JSON.parse(response.content).data.length) {
+                    callback(new Error('No results'))
                 } else {
                     const { data: results }  = JSON.parse(response.content)
         
@@ -40,6 +44,8 @@ function searchCompanies(query, token, callback) {
                         call(detailsURL, undefined, (error, response) => {
                             if(error) {
                                 callback(error)
+                            } else if(!JSON.parse(response.content).data) {
+                                callback(new Error('No stocks found'))
                             } else {
                                const { data } = JSON.parse(response.content)
 

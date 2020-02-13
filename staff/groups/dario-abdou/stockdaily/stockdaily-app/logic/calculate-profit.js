@@ -12,6 +12,8 @@ function calculateProfit(company, token, callback) {
     }, (error, response) => {
         if(error) {
             callback(error)
+        } else if(response.status === 401) {
+            callback(new Error('Authorization error, please login again.'))
         } else {
             const { investments } = JSON.parse(response.content)
 
@@ -28,6 +30,8 @@ function calculateProfit(company, token, callback) {
                     call(historicalURL(symbol, date), undefined, (error, response) => {
                         if(error) {
                             callback(error)
+                        } else if(!JSON.parse(response.content).data){
+                            callback(new Error('No data was found for this date'))
                         } else {
                             const { data } = JSON.parse(response.content)
                             const { close: longPrice } = data[symbol]

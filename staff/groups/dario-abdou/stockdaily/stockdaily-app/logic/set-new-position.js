@@ -17,6 +17,8 @@ function setNewPosition(position, token, callback) {
     }, (error, response) => {
         if(error) {
             callback(error)
+        } else if(response.status === 401) {
+            callback(new Error('Authorization error, please login again'))
         } else {
             const { investments } = JSON.parse(response.content)
 
@@ -31,6 +33,8 @@ function setNewPosition(position, token, callback) {
             }, (error, response) => {
                 if(error) {
                     callback(error)
+                } else if(response.status === 401) {
+                    callback(new Error('Authorization error, please login again'))
                 } else {
                     callback(undefined, response)
                 }

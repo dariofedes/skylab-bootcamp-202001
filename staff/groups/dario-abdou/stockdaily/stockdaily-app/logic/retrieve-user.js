@@ -13,7 +13,7 @@ function retrieveUser(token, callback) {
         } else if (response.status === 400) {
             callback(new Error('Wrong user id'))
         } else if(response.status === 401) {
-            callback(new Error('Wrong token'))
+            callback(new Error('Authorization error, please login again'))
         } else if(response.status === 200) {
             const {name, surname, username }  = JSON.parse(response.content)
 

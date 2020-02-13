@@ -1,7 +1,7 @@
 const { Component } = React
 
 class App extends Component {
-    state = { view: 'login', companies: undefined, company: undefined, userName: undefined, investments: undefined, logged: false }
+    state = { view: undefined, companies: undefined, company: undefined, userName: undefined, investments: undefined, logged: false, error: undefined }
 
     componentWillMount() {
         const { token } = sessionStorage
@@ -16,13 +16,23 @@ class App extends Component {
 
                 }
             })
-        }       
+        } else {
+            this.setState({ view: 'login', logged: false })
+        }      
+    }
+
+    showFeedback = error =>{
+        this.setState({ error: error.message })
+
+        setTimeout(() => {
+            this.setState({ error: undefined })
+        }, 3000)
     }
 
     handleLogin = credentials =>  {
             authenticateUser(credentials, (error, token) => {
                 if(error) {
-                    //TODO Handle Error
+                   this.showFeedback(error)
                 } else {
                     sessionStorage.token = token
                     this.setState({ view: 'search', logged: true })
@@ -38,7 +48,7 @@ class App extends Component {
 
             registerUser({ name, surname, username, password, investments: [] }, error => {
                 if(error) {
-                    //TODO Handle Error
+                    this.showFeedback(error)
                 } else {
                     this.setState({ view: 'login' })
                 }
@@ -55,7 +65,7 @@ class App extends Component {
 
         searchCompanies(query, token, (error, companies) => {
             if(error) {
-                //TODO Handle Error
+                this.showFeedback(error)
             } else {
                 this.setState({ companies, company: undefined, investments: undefined})
             }
@@ -70,7 +80,11 @@ class App extends Component {
         const{ token } = sessionStorage
 
         retrieveInvestmentsDetails(token, (error, investments) => {
-            this.setState({ investments, companies: undefined, company: undefined })
+            if(error) {
+                this.showFeedback(error)
+            } else {
+                this.setState({ investments, companies: undefined, company: undefined })
+            }
         })
     }
 
@@ -80,9 +94,11 @@ class App extends Component {
     }
 
     render() {
-        const { state: {view, companies, company, profit, investments, logged}, handleSearchSubmit, handleOnToDetails, handleOnToLogin, handleOnToRegister, handleLogin, handleRegister, handleOnPositionSubmit, handleOnToInvestments, handleOnLogout, handleOnToAccount }= this
+        const { state: {view, companies, company, profit, investments, logged, error}, handleSearchSubmit, handleOnToDetails, handleOnToLogin, handleOnToRegister, handleLogin, handleRegister, handleOnPositionSubmit, handleOnToInvestments, handleOnLogout, handleOnToAccount }= this
 
         return <main className="app">
+                
+                {error && <Feedback error={error} />}
 
                 <Header logged={logged} title="stockDaily" onToInvestments={handleOnToInvestments} onToLogin={handleOnToLogin} onToRegister={handleOnToRegister} onLogout={handleOnLogout} onToAccount={handleOnToAccount} />
 
@@ -97,6 +113,7 @@ class App extends Component {
                 {view === 'search' && company && <Details symbol={company} />}
 
                 {view === 'search' && investments && <Investments onToDetails={handleOnToDetails} investments={investments} />}
+           
             </main>
     }
 }

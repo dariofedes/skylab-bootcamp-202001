@@ -4,6 +4,8 @@ function retrieveDetails(symbol, callback) {
     call(url, undefined, (error, response) => {
         if(error) {
             callback(error)
+        } else if(!JSON.parse(response.content).data) {
+            callback(new Error('No stocks found'))
         } else {
             const { data } = JSON.parse(response.content)
             
