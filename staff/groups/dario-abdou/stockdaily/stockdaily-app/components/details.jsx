@@ -4,18 +4,26 @@ class Details extends Component {
 
     state = { detail: undefined, profit: undefined, newPositionForm: false }
 
+    showFeedback = error =>{
+        this.setState({ error: error.message })
+
+        setTimeout(() => {
+            this.setState({ error: undefined })
+        }, 3000)
+    }
+
     componentWillMount() {
         const { props: { symbol } } = this
         retrieveDetails(symbol, (error, details) => {
             if(error) {
-                //TODO Handling Error
+                this.showFeedback(error)
             } else {
                 this.setState({ detail: details })
 
                 const { token } = sessionStorage
                 calculateProfit(symbol, token, (error, profit) => {
                     if(error) {
-                        //TODO Handle Error
+                        this.showFeedback(error)
                     } else {
                         this.setState({ profit })
                     }
@@ -34,11 +42,11 @@ class Details extends Component {
 
         setNewPosition(position, token, (error, success) => {
             if(error) {
-                //TODO Handle Error
+                this.showFeedback(error)
             } else {
                 calculateProfit(symbol, token, (error, profit) => {
                     if(error) {
-                        //TODO Handle Error
+                        this.showFeedback(error)
                     } else {
                         this.setState({ profit, newPositionForm: false })
                     }
