@@ -31,13 +31,15 @@ function calculateProfit(company, token, callback) {
                         if(error) {
                             callback(error)
                         } else if(!JSON.parse(response.content).data){
-                            callback(new Error('No data was found for this date'))
+                            callback(new Error('Can not calculate profit'))
                         } else {
                             const { data } = JSON.parse(response.content)
                             const { close: longPrice } = data[symbol]
                             call(detailsURL(symbol), undefined, (error, response) => {
                                 if(error) {
                                     callback(error)
+                                } else if(!JSON.parse(response.content).data){
+                                    callback(new Error('Can not calculate profit'))
                                 } else {
                                     const { price: currentValue } = (JSON.parse(response.content)).data[0]
 
