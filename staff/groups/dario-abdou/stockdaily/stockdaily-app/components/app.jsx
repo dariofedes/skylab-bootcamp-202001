@@ -4,6 +4,7 @@ class App extends Component {
     state = { view: undefined, companies: undefined, company: undefined, userName: undefined, investments: undefined, logged: false, error: undefined }
     
     componentWillMount() {
+        console.log('Feliz San Valentín, cielo 👩‍❤️‍💋‍👨')
         const { token } = sessionStorage
         if(token) {
             retrieveUser(token, (error, userInfo) => {
