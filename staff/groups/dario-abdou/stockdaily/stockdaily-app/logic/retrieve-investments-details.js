@@ -1,3 +1,10 @@
+/**
+ * logic - retrieveInvestmentsDetails
+ * @param {string} token - User autorization
+ * @param {function} callback - function 
+ * @returns {object} details - details of the invested companies
+ */
+
 function retrieveInvestmentsDetails(token, callback) {
     call(retrieveURL(token), {
         method: 'GET',

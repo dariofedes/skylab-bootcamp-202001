@@ -1,8 +1,8 @@
 /**
- * logic - authenticate-user
- * @param {object} credentials - object. keys: username & password typeof string 
+ * logic - authenticateUser
+ * @param {object} credentials - object. keys: username & password
  * @param {function} callback - function 
- * @returns {string} token - credentials acces
+ * @returns {string} token - acces authorization
  */
 
 function authenticateUser(credentials, callback) {

@@ -1,5 +1,5 @@
 /**
- * logic - authenticate-user
+ * logic - calculateProfit
  * @param {string} company - the id symbol of a company
  * @param {string} token - User autorization
  * @param {function} callback - function 

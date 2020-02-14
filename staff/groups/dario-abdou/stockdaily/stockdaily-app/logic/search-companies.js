@@ -1,3 +1,11 @@
+/**
+ * logic - searchCompanies
+ * @param {string} query - the search term
+ * @param {string} token - User autorization
+ * @param {function} callback - function 
+ * @returns {Array} data - an array with the search results
+ */
+
 function searchCompanies(query, token, callback) {
     const searchURL = `https://api.worldtradingdata.com/api/v1/stock_search?search_term=${query}&search_by=symbol,name&api_token=${apiKey}`
     

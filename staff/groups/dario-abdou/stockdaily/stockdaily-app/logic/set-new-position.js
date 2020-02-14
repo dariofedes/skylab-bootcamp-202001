@@ -1,3 +1,11 @@
+/**
+ * logic - authenticate-user
+ * @param {object} position - keys: date, amount & symbol
+ * @param {string} token - User authorization
+ * @param {function} callback - function 
+ * @returns {undefined} 
+ */
+
 function setNewPosition(position, token, callback) {
     const { date, amount, symbol } = position
 

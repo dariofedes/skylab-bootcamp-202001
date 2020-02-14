@@ -1,5 +1,5 @@
 /**
- * logic - authenticate-user
+ * logic - registerUser
  * @param {object} user - user data, keys: name, surname, username, password
  * @param {function} callback - function 
  */
