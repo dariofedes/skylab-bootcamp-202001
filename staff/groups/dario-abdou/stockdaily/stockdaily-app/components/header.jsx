@@ -1,4 +1,4 @@
-function Header({title, onToInvestments, onToAccount, onLogout, logged, onToLogin, onToRegister }) {
+function Header({userName, title, onToInvestments, onToAccount, onLogout, logged, onToLogin, onToRegister }) {
     return <header className="header">
             <a href="" className="header__home"><h1 className="header__logo">{title}</h1></a>
             <nav className="header__menu menu">
@@ -6,6 +6,7 @@ function Header({title, onToInvestments, onToAccount, onLogout, logged, onToLogi
                     document.querySelector('.menu__list').classList.toggle('menu__list--show')
                 }}></i>
                     {logged && <ul className="menu__list">
+            <p className="header__user-name">Hello, {userName.name} {userName.surname}</p>
                             <li className="menu__link" onClick={() => {
                                 document.querySelector('.menu__list').classList.toggle('menu__list--show')
                                 onToInvestments()

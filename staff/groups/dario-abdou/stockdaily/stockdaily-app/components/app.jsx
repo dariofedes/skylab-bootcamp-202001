@@ -59,12 +59,25 @@ class App extends Component {
                         this.showFeedback(error)
                     } else {
                         sessionStorage.token = token
-                        isSDUser(sessionStorage.token, error => {
+                        isSDUser(token, error => {
                             if(error) {
                                 this.showFeedback(error)
                             } else {
-                                this.setState({ view: 'search', logged: true })
+                                retrieveUser(token, (error, userInfo) => {
+                                    if(error) {
+                                        address.hash = 'login'
 
+                                        sessionStorage.clear()
+                                        this.setState({ view: 'login', logged: false })
+                                    } else {
+                                        let { name, surname } = userInfo
+                                        this.setState({ view: 'search', userName: { name, surname }, logged: true  })
+                                        address.clear
+                                    }
+                                })
+
+
+                                this.setState({ view: 'search', logged: true })
                             }
                         })
                     }    
@@ -149,13 +162,13 @@ class App extends Component {
     }
 
     render() {
-        const { state: {view, companies, company, profit, investments, logged, error}, handleSearchSubmit, handleOnToDetails, handleOnToLogin, handleOnToRegister, handleLogin, handleRegister, handleOnPositionSubmit, handleOnToInvestments, handleOnLogout, handleOnToAccount }= this
+        const { state: {view, companies, company, investments, logged, error, userName }, handleSearchSubmit, handleOnToDetails, handleOnToLogin, handleOnToRegister, handleLogin, handleRegister, handleOnPositionSubmit, handleOnToInvestments, handleOnLogout, handleOnToAccount }= this
 
         return <main className="app">
-                
+
                 {error && <Feedback error={error} />}
 
-                <Header logged={logged} title="stockDaily" onToInvestments={handleOnToInvestments} onToLogin={handleOnToLogin} onToRegister={handleOnToRegister} onLogout={handleOnLogout} onToAccount={handleOnToAccount} />
+                <Header userName={userName} logged={logged} title="stockDaily" onToInvestments={handleOnToInvestments} onToLogin={handleOnToLogin} onToRegister={handleOnToRegister} onLogout={handleOnLogout} onToAccount={handleOnToAccount} />
 
                 {view === 'login' && <Login onSubmit={handleLogin} onToRegister={handleOnToRegister} />}
                 

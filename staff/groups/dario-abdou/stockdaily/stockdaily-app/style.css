@@ -17,6 +17,10 @@
   padding: 0 1rem;
   box-sizing: border-box;
 }
+.header__user-name {
+  color: #2B2B2B;
+  margin-bottom: 2rem;
+}
 .header__home {
   text-decoration: none;
   font-size: 1.5rem;
