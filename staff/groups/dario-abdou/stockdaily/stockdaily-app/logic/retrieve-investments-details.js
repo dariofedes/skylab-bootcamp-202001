@@ -6,11 +6,7 @@
  */
 
 function retrieveInvestmentsDetails(token, callback) {
-<<<<<<< HEAD
-    call(usersURL(token), {
-=======
     call(usersURL(), {
->>>>>>> stockdaily-feature/investments-list
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`
