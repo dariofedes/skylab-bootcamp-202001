@@ -38,7 +38,7 @@ function setNewPosition(position, token, callback) {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
                         },
-                        body: JSON.stringify(investments)
+                        body: JSON.stringify({ investments })
                     }, (error, response) => {
                         if(error) {
                             callback(error)

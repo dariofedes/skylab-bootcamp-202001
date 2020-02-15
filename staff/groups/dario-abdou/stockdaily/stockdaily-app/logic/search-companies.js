@@ -11,7 +11,7 @@ function searchCompanies(query, token, callback) {
     
 
 
-    call(retrieveURL(token), {
+    call(usersURL(token), {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`

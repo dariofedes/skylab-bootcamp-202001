@@ -12,7 +12,7 @@ function calculateProfit(company, token, callback) {
     let totalInvested = 0
     let absoluteTotalNetProfit = 0
 
-    call(retrieveURL(token), {
+    call(usersURL(token), {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`
