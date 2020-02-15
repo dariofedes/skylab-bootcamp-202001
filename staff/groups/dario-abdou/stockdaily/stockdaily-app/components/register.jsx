@@ -7,7 +7,7 @@ function Register({ onSubmit, onToLogin, error }) {
 
                         const name = event.target.name.value
                         const surname = event.target.surname.value
-                        const username = event.target.username.value
+                        const username = event.target.username.value.toLowerCase()
                         const password = event.target.password.value
                 
                         const user = {

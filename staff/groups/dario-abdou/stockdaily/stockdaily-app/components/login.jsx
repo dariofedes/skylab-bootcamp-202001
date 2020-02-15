@@ -7,7 +7,7 @@ function Login({onSubmit, onToRegister, error}){
                 <form className="login__form" onSubmit={ event => {
                     event.preventDefault()
                     
-                    const username = event.target.username.value
+                    const username = event.target.username.value.toLowerCase()
                     const password = event.target.password.value
         
                     onSubmit({ username, password })
