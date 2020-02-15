@@ -59,7 +59,14 @@ class App extends Component {
                         this.showFeedback(error)
                     } else {
                         sessionStorage.token = token
-                        this.setState({ view: 'search', logged: true })
+                        isSDUser(sessionStorage.token, error => {
+                            if(error) {
+                                this.showFeedback(error)
+                            } else {
+                                this.setState({ view: 'search', logged: true })
+
+                            }
+                        })
                     }    
                 })
            } catch(error) {
@@ -75,7 +82,7 @@ class App extends Component {
 
     handleRegister = ({ name, surname, username, password }) => {
         try {
-            registerUser({ name, surname, username, password, investments: [] }, error => {
+            registerUser({ name, surname, username, password, investments: [], sdUser: true }, error => {
                 if(error) {
                     this.showFeedback(error)
                 } else {
