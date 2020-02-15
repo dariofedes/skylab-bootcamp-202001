@@ -1,4 +1,4 @@
-function pushNewPosition(array,position, symbol) {
+function pushNewPosition(array, position, symbol) {
     const index = array.findIndex(element => element.company === symbol)
 
     if(index < 0) {

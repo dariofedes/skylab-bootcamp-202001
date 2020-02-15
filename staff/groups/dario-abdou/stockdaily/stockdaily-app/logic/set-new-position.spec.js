@@ -52,10 +52,10 @@ describe('setNewPosition()', () => {
             })
         })
 
-        it('should set a new position', done => {
+        fit('should set a new position', done => {
             setNewPosition({ date: '2020-01-13', amount: '1000', symbol: 'AAPL' }, userToken, (error, response) => {
                 expect(error).toBeUndefined()
-                expect(response.status).toBe(204)
+                expect(response).toBe(204)
                 
                 done()
             })
