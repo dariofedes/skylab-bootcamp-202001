@@ -1,3 +1,9 @@
+/**
+ * logic - registerUser
+ * @param {object} user - user data, keys: name, surname, username, password
+ * @param {function} callback - function 
+ */
+
 function registerUser(user, callback) {
     const { name, surname, username, password } = user
 

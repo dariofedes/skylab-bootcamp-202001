@@ -1,3 +1,10 @@
+/**
+ * logic - retrieveUser
+ * @param {string} token - User autorization
+ * @param {function} callback - function 
+ * @returns {object} userInfo - name, surname and username
+ */
+
 function retrieveUser(token, callback) {
     const sub = getSub(token)
 

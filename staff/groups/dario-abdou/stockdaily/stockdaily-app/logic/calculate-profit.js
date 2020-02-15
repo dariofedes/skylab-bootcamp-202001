@@ -1,10 +1,18 @@
+/**
+ * logic - calculateProfit
+ * @param {string} company - the id symbol of a company
+ * @param {string} token - User autorization
+ * @param {function} callback - function 
+ * @returns {object} profit - keys: absoluteTotalNetProfit, relativeTotalNetProfit, totalInvested, total
+ */
+
 function calculateProfit(company, token, callback) {
     const userSub = getSub(token)
 
     let totalInvested = 0
     let absoluteTotalNetProfit = 0
 
-    call(retrieveURL(token), {
+    call(usersURL(token), {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`
@@ -31,13 +39,15 @@ function calculateProfit(company, token, callback) {
                         if(error) {
                             callback(error)
                         } else if(!JSON.parse(response.content).data){
-                            callback(new Error('No data was found for this date'))
+                            callback(new Error('Can not calculate profit'))
                         } else {
                             const { data } = JSON.parse(response.content)
                             const { close: longPrice } = data[symbol]
                             call(detailsURL(symbol), undefined, (error, response) => {
                                 if(error) {
                                     callback(error)
+                                } else if(!JSON.parse(response.content).data){
+                                    callback(new Error('Can not calculate profit'))
                                 } else {
                                     const { price: currentValue } = (JSON.parse(response.content)).data[0]
 

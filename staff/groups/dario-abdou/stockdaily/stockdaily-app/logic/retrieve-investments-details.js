@@ -1,5 +1,12 @@
+/**
+ * logic - retrieveInvestmentsDetails
+ * @param {string} token - User autorization
+ * @param {function} callback - function 
+ * @returns {object} details - details of the invested companies
+ */
+
 function retrieveInvestmentsDetails(token, callback) {
-    call(retrieveURL(token), {
+    call(usersURL(), {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`
@@ -7,58 +14,31 @@ function retrieveInvestmentsDetails(token, callback) {
     }, (error, response) => {
         if(error) {
             callback(error)
+        } else if(response.status !== 200) {
+            callback(new Error('Authentication Error. Please, logout and authenticate again.'))
         } else {
-            const { investments } =JSON.parse(response.content)
+            const { investments } = JSON.parse(response.content)
 
-            if(investments.length > 5) {
-                let investedCompanies = []
+            const data = []
 
-                for(let i = 0; i < Math.ceil(investments.length / 5); i++) {
-                    let query = ''
-                    
-                    for(let j = (i + 1) * 5; j < investments.length && j < 5; j++) {
-                        if(j === 4) {
-                            query += investments[j].company
-                        } else {
-                            query += `${investments[j].company},`
-                        }
-                    }
-
-                    call(detailsURL(query), undefined, (error, response) => {
-                        if(error) {
-                            callback(error)
-                        } else {
-                            const { data } = JSON.parse(response.content)
-
-                            investedCompanies.push(data)
-
-                            if(investedCompanies.length === Math.ceil(investments.length / 5)) {
-                                callback(undefined, investedCompanies.flat())
-                            }
-                        }
-                    })
-                }
-            } else {
-                let query = ''
-
-                investments.forEach((element, index) => {
-                    if(investments[index + 1]){
-                        query += `${element.company},`
-                    } else {
-                        query += element.company
-                    }
-                })
-
-                call(detailsURL(query), undefined, (error, response) => {
+            investments.forEach(element => {
+                const { company } = element
+                call(detailsURL(company), undefined, (error, response) => {
                     if(error) {
                         callback(error)
+                    } else if(JSON.parse(response.content).message) {
+                        callback(new Error('Something went wrong, we can not show you your investments at the moment'))
                     } else {
-                        const { data } = JSON.parse(response.content)
+                        const [ details ] = JSON.parse(response.content).data
 
-                        callback(undefined, data)
+                        data.push(details)
+
+                        if(data.length === investments.length) {
+                            callback(undefined, data)
+                        }
                     }
                 })
-            }
+            })
         }
     })
 }

@@ -1,3 +1,10 @@
+/**
+ * logic - authenticateUser
+ * @param {object} credentials - object. keys: username & password
+ * @param {function} callback - function 
+ * @returns {string} token - acces authorization
+ */
+
 function authenticateUser(credentials, callback) {
     const { username, password } = credentials
 

@@ -1,3 +1,10 @@
+/**
+ * logic - retrieveDetails
+ * @param {string} symbol - the id symbol of a company
+ * @param {function} callback - function 
+ * @returns {object} details 
+ */
+
 function retrieveDetails(symbol, callback) {
 
     call(detailsURL(symbol), undefined, (error, response) => {

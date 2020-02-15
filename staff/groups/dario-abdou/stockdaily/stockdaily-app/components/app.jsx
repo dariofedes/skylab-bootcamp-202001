@@ -2,21 +2,44 @@ const { Component } = React
 
 class App extends Component {
     state = { view: undefined, companies: undefined, company: undefined, userName: undefined, investments: undefined, logged: false, error: undefined }
-
+    
     componentWillMount() {
+        console.log('Feliz San Valentín, cielo 👩‍❤️‍💋‍👨')
         const { token } = sessionStorage
         if(token) {
             retrieveUser(token, (error, userInfo) => {
                 if(error) {
+                    address.hash = 'login'
+
+                    sessionStorage.clear()
                     this.setState({ view: 'login', logged: false })
                 } else {
-                    const { name, surname } = userInfo
-
-                    this.setState({ userName: { name, surname }, view: 'search', logged: true })
-
+                    let { name, surname } = userInfo
+                    this.setState({ userName: { name, surname }, logged: true  })
+                    if(address.search.q) {
+                        let { q: query } = address.search
+                        this.setState({ view: 'search' })                        
+                        this.handleSearchSubmit(query)
+                    } else if(address.hash === 'login' || address.hash === 'signup') {
+                        this.setState({ view: address.hash, logged: false })
+                        sessionStorage.clear()
+                    } else if(address.hash === 'investments'){
+                        this.handleOnToInvestments()
+                        this.setState({ view: 'search' })
+                    } else if(!address.hash) {
+                        address.clear()
+                        this.setState({ view: 'search' })
+                    } else if(address.hash.startsWith('stock/')) {
+                        let [ , id ] = address.hash.split('/')[1]
+                        this.handleOnToDetails(id)
+                    } else {
+                        this.showFeedback('Invalid url')
+                    }
                 }
             })
         } else {
+            address.hash = 'login'
+
             this.setState({ view: 'login', logged: false })
         }      
     }
@@ -30,6 +53,7 @@ class App extends Component {
     }
 
     handleLogin = credentials =>  {
+<<<<<<< HEAD
            try {
                 authenticateUser(credentials, (error, token) => {
                     if(error) {
@@ -42,9 +66,23 @@ class App extends Component {
            } catch(error) {
                this.showFeedback(error)
            }
+=======
+            authenticateUser(credentials, (error, token) => {
+                if(error) {
+                   this.showFeedback(error)
+                } else {
+                    address.clear()
+
+                    sessionStorage.token = token
+                    this.setState({ view: 'search', logged: true })
+                }    
+            })
+>>>>>>> stockdaily-develop
     }
 
     handleOnToRegister = () => {
+        address.hash = 'signup'
+
         this.setState({ view: 'register' })
     }
 
@@ -54,6 +92,8 @@ class App extends Component {
                 if(error) {
                     this.showFeedback(error)
                 } else {
+                    address.hash = 'login'
+                    
                     this.setState({ view: 'login' })
                 }
             })
@@ -63,6 +103,8 @@ class App extends Component {
     }
 
     handleOnToLogin = () => {
+        address.hash = 'login'
+
         this.setState({ view: 'login' })
     }
 
@@ -74,17 +116,25 @@ class App extends Component {
             if(error) {
                 this.showFeedback(error)
             } else {
+                address.search = { q: query }
+
                 this.setState({ companies, company: undefined, investments: undefined})
             }
         })
     }
 
     handleOnToDetails = symbol => {
-        this.setState({ company: symbol, companies: undefined, investments: undefined })
+
+        address.hash = `stock/${symbol}`
+
+        this.setState({view: 'search', company: symbol, companies: undefined, investments: undefined })
     }
 
     handleOnToInvestments = () => {
         const{ token } = sessionStorage
+
+
+        address.hash = 'investments'
 
         retrieveInvestmentsDetails(token, (error, investments) => {
             if(error) {
@@ -97,7 +147,11 @@ class App extends Component {
 
     handleOnLogout = () => {
         sessionStorage.clear()
-        this.setState({view: 'login', logged: false})
+        const{ token } = sessionStorage
+
+        address.hash = 'login'
+        
+        this.setState({view: 'login', logged: false, companies: undefined, company: undefined, investments: undefined})
     }
 
     render() {

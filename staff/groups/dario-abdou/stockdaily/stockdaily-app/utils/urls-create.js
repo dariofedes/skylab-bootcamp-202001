@@ -24,6 +24,6 @@ function historicalURL(symbol, date) {
     return `${stockAPIURL}history_multi_single_day?symbol=${symbol}&date=${date}&api_token=${apiKey}`
 }
 
-function retrieveURL(token) {
-    return `${usersAPIURL}${getSub(token)}`
+function usersURL() {
+    return `${usersAPIURL}`
 }
