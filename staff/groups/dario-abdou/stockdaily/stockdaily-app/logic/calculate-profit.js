@@ -20,7 +20,7 @@ function calculateProfit(company, token, callback) {
     }, (error, response) => {
         if(error) {
             callback(error)
-        } else if(response.status === 401) {
+        } else if(!response.status === 200) {
             callback(new Error('Authorization error, please login again.'))
         } else {
             const { investments } = JSON.parse(response.content)

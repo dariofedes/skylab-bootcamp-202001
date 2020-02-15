@@ -8,8 +8,8 @@
 function authenticateUser(credentials, callback) {
     const { username, password } = credentials
 
-    if(!username.length) callback(new Error('Invalid username'))
-    if(!password.length) callback(new Error('Invalid password'))
+    if(!username.length) throw new Error('Invalid username')
+    if(!password.length) throw new Error('Invalid password')
 
     call('https://skylabcoders.herokuapp.com/api/v2/users/auth', {
         method: 'POST',

@@ -7,10 +7,10 @@
 function registerUser(user, callback) {
     const { name, surname, username, password } = user
 
-    if(!name || typeof name !== 'string') callback(new Error('Invalid name'))
-    if(!surname || typeof surname !== 'string') callback(new Error('Invalid surname'))
-    if(!username || typeof username !== 'string') callback(new Error('Invalid username'))
-    if(!password || typeof password !== 'string') callback(new Error('Invalid password'))
+    if(!name || typeof name !== 'string') throw new Error('Invalid name')
+    if(!surname || typeof surname !== 'string') throw new Error('Invalid surname')
+    if(!username || typeof username !== 'string') throw new Error('Invalid username')
+    if(!password || typeof password !== 'string') throw new Error('Invalid password')
 
     call('https://skylabcoders.herokuapp.com/api/v2/users', {
         method: 'POST',

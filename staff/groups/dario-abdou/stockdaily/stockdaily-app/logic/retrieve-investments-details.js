@@ -19,6 +19,8 @@ function retrieveInvestmentsDetails(token, callback) {
         } else {
             const { investments } = JSON.parse(response.content)
 
+            if(investments.length === 0) callback(undefined, investments)
+
             const data = []
 
             investments.forEach(element => {
@@ -26,7 +28,7 @@ function retrieveInvestmentsDetails(token, callback) {
                 call(detailsURL(company), undefined, (error, response) => {
                     if(error) {
                         callback(error)
-                    } else if(JSON.parse(response.content).message) {
+                    } else if(JSON.parse(response.content).Message) {
                         callback(new Error('Something went wrong, we can not show you your investments at the moment'))
                     } else {
                         const [ details ] = JSON.parse(response.content).data

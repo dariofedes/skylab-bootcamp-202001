@@ -14,8 +14,8 @@ function setNewPosition(position, token, callback) {
     call(historicalURL(symbol, date), undefined, (error, response) => {
         if(error) {
             callback(error)
-        } else if(JSON.parse(response.content).message) {
-            callback(new Error('No price data for this date, please select a defferent date.'))
+        } else if(JSON.parse(response.content).Message) {
+            callback(new Error('No price data for this date, please select a different date.'))
         } else {
             call(usersURL(), {
                 method: 'GET',

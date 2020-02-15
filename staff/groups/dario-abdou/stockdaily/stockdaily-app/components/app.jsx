@@ -53,7 +53,6 @@ class App extends Component {
     }
 
     handleLogin = credentials =>  {
-<<<<<<< HEAD
            try {
                 authenticateUser(credentials, (error, token) => {
                     if(error) {
@@ -66,18 +65,6 @@ class App extends Component {
            } catch(error) {
                this.showFeedback(error)
            }
-=======
-            authenticateUser(credentials, (error, token) => {
-                if(error) {
-                   this.showFeedback(error)
-                } else {
-                    address.clear()
-
-                    sessionStorage.token = token
-                    this.setState({ view: 'search', logged: true })
-                }    
-            })
->>>>>>> stockdaily-develop
     }
 
     handleOnToRegister = () => {
