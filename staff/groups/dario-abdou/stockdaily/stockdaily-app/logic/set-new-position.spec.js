@@ -61,7 +61,7 @@ describe('setNewPosition()', () => {
             })
         })
 
-        fit('Should fail on non valid date', done => {
+        it('Should fail on non valid date', done => {
             setNewPosition({ date: '2020-13-13', amount: '1000', symbol: 'AAPL' }, userToken, (error, response) => {
                 expect(response).toBeUndefined()
                 expect(error.message).toBe('No price data for this date, please select a defferent date.')
