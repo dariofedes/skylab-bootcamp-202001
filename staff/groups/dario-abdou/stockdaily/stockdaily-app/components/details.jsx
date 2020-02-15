@@ -74,6 +74,7 @@ class Details extends Component {
                     <h3 className="details__title">{name}</h3>
                     {change_pct > 0 && <p className="details__relative-change details__relative-change--up"><i className="fas fa-sort-up details__change-icon details__change-icon--up"></i>   {change_pct}%</p>}
                     {change_pct < 0 && <p className="details__relative-change details__relative-change--down"><i className="fas fa-sort-down details__change-icon details__change-icon--down"></i>    {change_pct}%</p>}
+                    {change_pct == 0 && <p className="details__relative-change"><strong>=</strong></p>}
                 </header>
                 <div className="details__positions">
                     {profit && <Profit profit={profit} />}
