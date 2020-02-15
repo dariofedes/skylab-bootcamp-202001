@@ -30,14 +30,18 @@ class App extends Component {
     }
 
     handleLogin = credentials =>  {
-            authenticateUser(credentials, (error, token) => {
-                if(error) {
-                   this.showFeedback(error)
-                } else {
-                    sessionStorage.token = token
-                    this.setState({ view: 'search', logged: true })
-                }    
-            })
+           try {
+                authenticateUser(credentials, (error, token) => {
+                    if(error) {
+                        this.showFeedback(error)
+                    } else {
+                        sessionStorage.token = token
+                        this.setState({ view: 'search', logged: true })
+                    }    
+                })
+           } catch(error) {
+               this.showFeedback(error)
+           }
     }
 
     handleOnToRegister = () => {
@@ -45,7 +49,7 @@ class App extends Component {
     }
 
     handleRegister = ({ name, surname, username, password }) => {
-
+        try {
             registerUser({ name, surname, username, password, investments: [] }, error => {
                 if(error) {
                     this.showFeedback(error)
@@ -53,6 +57,9 @@ class App extends Component {
                     this.setState({ view: 'login' })
                 }
             })
+        } catch(error) {
+            this.showFeedback(error)
+        }
     }
 
     handleOnToLogin = () => {
