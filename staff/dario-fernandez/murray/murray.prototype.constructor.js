@@ -176,3 +176,7 @@ Murray.prototype.every = function() {
     }
     return true
 }
+
+if(typeof module !== 'undefined') {
+    module.exports = Murray
+}

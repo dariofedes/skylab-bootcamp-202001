@@ -1,3 +1,7 @@
+if(typeof require !== 'undefined'){
+    var Murray = require('./murray.prototype.constructor')
+}
+
 describe('Murray.prototype.every()', function() {
     it('Should return true if every item in a murray satisfies the callback condition', function() {
         var murray = new Murray(1, 1, 1, 1, 1)

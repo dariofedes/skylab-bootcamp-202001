@@ -1,3 +1,7 @@
+if(typeof require !== 'undefined'){
+    var Murray = require('./murray.prototype.constructor')
+}
+
 describe('Murray.prototype.reduce()', function() {
     it('Should return the reduced value', function() {
         var murray = new Murray(1, 2, 3, 4, 5)

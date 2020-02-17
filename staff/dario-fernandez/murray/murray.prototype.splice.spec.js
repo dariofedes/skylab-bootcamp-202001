@@ -1,3 +1,7 @@
+if(typeof require !== 'undefined'){
+    var Murray = require('./murray.prototype.constructor')
+}
+
 describe('Murray.prototype.splice()', function() {
     it('Should delete all the elements from start to the end of the murray and return the deleted values if only one argument is passed', function() {
         var murray = new Murray(1, 2, 3, 4, 5)

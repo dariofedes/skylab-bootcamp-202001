@@ -1,3 +1,8 @@
+
+if(typeof require !== 'undefined'){
+    var Murray = require('./murray.prototype.constructor')
+}
+
 describe('Murray.prototype.concat()', function() {
     it('should return a new murray concatenating two existing murray', function() {
         var murray1 = new Murray(1, 2, 3)

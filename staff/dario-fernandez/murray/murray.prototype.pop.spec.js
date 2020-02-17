@@ -1,3 +1,7 @@
+if(typeof require !== 'undefined'){
+    var Murray = require('./murray.prototype.constructor')
+}
+
 describe('Murray.prototype.pop()', function() {
     it('should return the last item of a murray', function() {
         var murray = new Murray(1, 2, 3, 4)

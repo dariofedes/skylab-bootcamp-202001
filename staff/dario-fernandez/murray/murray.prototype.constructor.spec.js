@@ -1,3 +1,7 @@
+if(typeof require !== 'undefined'){
+    var Murray = require('./murray.prototype.constructor')
+}
+
 describe('Murray.prototype.constructor', function() {
     it('should return a new Murray when instanced', function() {
         var murray = new Murray(1, 2, 3);

@@ -1,3 +1,7 @@
+if(typeof require !== 'undefined'){
+    var Murray = require('./murray.prototype.constructor')
+}
+
 describe('Murray.prototype.push()', function() {
     it('should the last element of the murray be equal to the pushed value', function() {
         var murray = new Murray(1, 2, 3)
