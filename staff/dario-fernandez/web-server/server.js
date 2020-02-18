@@ -1,36 +1,27 @@
 const net = require('net')
 const fs = require('fs')
 
-
 const server = net.createServer(socket => {
     socket.on('data', chunk => {
         const pageRequest = chunk.toString().split(' ')[1]
 
-        if(pageRequest === '/') {
+        const rs = fs.createReadStream(pageRequest === '/' ? './index.html' : `./${pageRequest}.html`)
+
+        rs.on('error', () => {
+            socket.end(`HTTP/1.1 404 NOT FOUND
+Content-Type: text/html
+
+<h1>404 - Not Found</h1>`)
+            })
+        
+        rs.on('data', chunk => {
             socket.write(`HTTP/1.1 200
 Content-Type: text/html
 
-`)
-            const rs = fs.createReadStream('./index.html')
-            
-            rs.on('data', chunk => {
-                socket.write(chunk)
-            })
+${chunk}`)
+        })
 
-            rs.on('end', () => socket.destroy())
-        } else {
-            socket.write(`HTTP/1.1 200
-Content-Type: text/html
-
-`)
-            const rs = fs.createReadStream(`./${pageRequest}.html`)
-            
-            rs.on('data', chunk => {
-                socket.write(chunk)
-            })
-
-            rs.on('end', () => socket.destroy())
-        }
+        rs.on('end', () => socket.destroy())
     })
 })
 
