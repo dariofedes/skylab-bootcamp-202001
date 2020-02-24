@@ -1,0 +1,298 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Martel Sans", sans-serif;
+  background-color: #2782C8;
+}
+
+* {
+  margin: 0;
+}
+
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.app__title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 5rem;
+  font-family: "Bangers", cursive;
+  color: #FFEA34;
+  height: 10%;
+  display: flex;
+  align-items: center;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Martel Sans", sans-serif;
+  background-color: #2782C8;
+}
+
+* {
+  margin: 0;
+}
+
+.login {
+  max-width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  color: white;
+}
+.login__container {
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 3rem;
+  border: 2px solid white;
+}
+.login__title {
+  color: white;
+  font-size: 1.7rem;
+  letter-spacing: 0.2rem;
+  align-self: flex-start;
+  font-weight: normal;
+}
+.login__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.login__input {
+  color: white;
+  margin-bottom: 3rem;
+  height: 2rem;
+  width: 100%;
+  background-color: transparent;
+  border-left: 0;
+  border-top: 0;
+  border-right: 0;
+  font-size: 1rem;
+  font-weight: 100;
+  outline: none;
+}
+.login__input::placeholder {
+  color: white;
+}
+.login__submit {
+  width: 45%;
+  height: 2.5rem;
+  background-color: #2782C8;
+  color: white;
+  border: 2px solid white;
+  border-radius: 20px;
+  font-size: 1rem;
+  outline: none;
+}
+.login__submit:hover {
+  cursor: pointer;
+}
+.login__cta-link {
+  text-decoration: underline;
+  color: #FFEA34;
+}
+.login__cta-link:hover {
+  cursor: pointer;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Martel Sans", sans-serif;
+  background-color: #2782C8;
+}
+
+* {
+  margin: 0;
+}
+
+.register {
+  max-width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 90%;
+  color: white;
+}
+.register__container {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 3rem;
+  border: 2px solid white;
+}
+.register__title {
+  color: white;
+  font-size: 1.7rem;
+  letter-spacing: 0.2rem;
+  align-self: flex-start;
+  font-weight: normal;
+}
+.register__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.register__input {
+  color: white;
+  margin-bottom: 2.5rem;
+  height: 2rem;
+  width: 100%;
+  background-color: transparent;
+  border-left: 0;
+  border-top: 0;
+  border-right: 0;
+  font-size: 1rem;
+  font-weight: 100;
+  outline: none;
+}
+.register__input::placeholder {
+  color: white;
+}
+.register__submit {
+  width: 45%;
+  height: 2.5rem;
+  background-color: #2782C8;
+  color: white;
+  border: 2px solid white;
+  border-radius: 20px;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  outline: none;
+}
+.register__submit:hover {
+  cursor: pointer;
+}
+.register__cta-link {
+  text-decoration: underline;
+  color: #FFEA34;
+}
+.register__cta-link:hover {
+  cursor: pointer;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Martel Sans", sans-serif;
+  background-color: #2782C8;
+}
+
+* {
+  margin: 0;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 15%;
+  width: 90%;
+}
+.search__form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.search__query {
+  background-color: transparent;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  outline: none;
+  color: white;
+  font-size: 1.5rem;
+  width: 80%;
+  height: 3rem;
+  max-width: 500px;
+}
+.search__query::placeholder {
+  font-weight: 100;
+  color: white;
+}
+.search__submit {
+  border: none;
+  margin-left: 1rem;
+  background-color: transparent;
+  outline: none;
+}
+.search__submit > i {
+  font-size: 1.7rem;
+  color: white;
+}
+.search__submit:hover {
+  cursor: pointer;
+}
+.search__user {
+  color: white;
+  align-self: flex-end;
+}
+.search__user:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.search__user-avatar {
+  margin-left: 1rem;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Martel Sans", sans-serif;
+  background-color: #2782C8;
+}
+
+* {
+  margin: 0;
+}
+
+.cookies {
+  width: 100%;
+  height: 25%;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.cookies__title {
+  font-size: 2rem;
+  color: white;
+  text-decoration: none;
+}
+.cookies__accept {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  outline: none;
+  border-radius: 10px;
+}
+.cookies__accept:hover {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=style.css.map */
