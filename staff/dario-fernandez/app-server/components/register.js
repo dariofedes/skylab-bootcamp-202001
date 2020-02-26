@@ -1,5 +1,5 @@
 function Register(props = {}) {
-    const { error, acceptCookies } = props
+    const { feedback } = props
 
     return `<section class="register"> 
     <div class="register__container">
@@ -10,6 +10,7 @@ function Register(props = {}) {
             <input type="text" name="username" class="register__input" placeholder="Username" />
             <input type="password" name="password" class="register__input" placeholder="Password" />
             <button class="register__submit" type="submit">Sign up</button>
+            ${feedback ? `<p>${feedback.message}</p>` : ''}
         </form>
         <p class="register__cta">
             Do you have an account yet?

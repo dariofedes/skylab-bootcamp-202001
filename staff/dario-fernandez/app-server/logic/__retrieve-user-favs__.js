@@ -1,21 +1,21 @@
 const fetch = require('../utils/fetch')
 
-function retrieveUser(token) {
-
+function __retrieveUserFavs__(token) {
     return fetch(`https://skylabcoders.herokuapp.com/api/v2/users/`, {
         method: 'GET',
-        headers:{
+        headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         }
     })
+
         .then(response => {
-            const { name, surname, username, error } = JSON.parse(response.content)
+            const { favs, error } = JSON.parse(response.content)
 
             if(error) throw new Error(error)
 
-            return { name, surname, username }
+            return favs
         })
 }
 
-module.exports = retrieveUser
+module.exports = __retrieveUserFavs__

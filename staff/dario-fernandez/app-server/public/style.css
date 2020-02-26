@@ -270,7 +270,7 @@ body {
 .cookies {
   width: 100%;
   height: 25%;
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   left: 0px;
   display: flex;
@@ -278,6 +278,20 @@ body {
   align-items: center;
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.2);
+}
+.cookies__container {
+  position: relative;
+  top: 0;
+  z-index: 99;
+  width: 50%;
+  heigth: 80%;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  filter: blur(10px);
 }
 .cookies__title {
   font-size: 2rem;
@@ -293,6 +307,72 @@ body {
 }
 .cookies__accept:hover {
   cursor: pointer;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Martel Sans", sans-serif;
+  background-color: #2782C8;
+}
+
+* {
+  margin: 0;
+}
+
+.list {
+  display: grid;
+  width: 100%;
+  max-width: 1024px;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 2rem 0;
+  list-style: none;
+  grid-gap: 1rem;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Martel Sans", sans-serif;
+  background-color: #2782C8;
+}
+
+* {
+  margin: 0;
+}
+
+.article {
+  background-color: white;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.article > * {
+  margin: 0.5rem;
+}
+.article__name {
+  font-size: 1rem;
+}
+.article__name:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.article__photo {
+  width: 100%;
+}
+.article__photo:hover {
+  cursor: pointer;
+}
+.article__price {
+  align-self: flex-end;
+  font-weight: 100;
+}
+.article__fav {
+  cursor: pointer;
+}
+.article__fav--faved {
+  color: #e23f3d;
 }
 
 /*# sourceMappingURL=style.css.map */
