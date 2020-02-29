@@ -9,7 +9,7 @@ const { name, version } = require('./package')
 const jsonBodyParser = bodyParser.json()
 const { database } = require('./data')
 const { jwtVerifierMidWare } = require('./mid-wares')
-const { registerUser, authenticateUser, retrieveUser, createEvent } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, createEvent, retrievePublishedEvents, retrieveLastEvents } = require('./routes')
 
 database.connect(MONGODB_URL)
     .then(() => {
@@ -29,12 +29,16 @@ database.connect(MONGODB_URL)
 
         app.get('/users', jwtVerifierMidWare, retrieveUser)
 
-        app.post('/users/:id/event', jwtVerifierMidWare, jsonBodyParser, createEvent)
+        app.post('/users/:id/events', jwtVerifierMidWare, jsonBodyParser, createEvent)
+        
+        app.get('/users/:id/events', jwtVerifierMidWare, retrievePublishedEvents)
+
+        app.get('/events', retrieveLastEvents)
 
         app.listen(port, () => logger.info(`server ${name} ${version} up and listening in port ${port}`))
         process.on('SIGINT', () => {
             logger.info('server abruptly stopped')
-
+            
             process.exit(0)
         })
     })

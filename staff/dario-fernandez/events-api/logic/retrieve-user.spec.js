@@ -5,7 +5,7 @@ const { retrieveUser } = require('../logic')
 const { database, models: { User } } = require('../data')
 const { expect } = require('chai')
 
-describe.only('retrieveUser', () =>{
+describe('retrieveUser', () =>{
     let name, surname, email, password, id, users
 
     before(() => {
