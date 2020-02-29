@@ -1,0 +1,31 @@
+const { authenticateUser } = require('../logic')
+const jwt = require('jsonwebtoken')
+const { env: { JWT_SECRET, JWT_EXP } } = process
+
+debugger
+
+
+module.exports = function(req, res) {
+    const { body:  { email, password } } = req
+
+    try{
+        authenticateUser(email, password)
+            .then(id => {
+                const token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: JWT_EXP })
+
+                res
+                    .status(200)
+                    .json({ token })
+            })
+
+            .catch(({ message }) => {
+                res
+                    .status(401)
+                    .json({ error: message })
+            })
+    } catch(error) {
+        res
+            .status(401)
+            .json({ error: message })
+    }
+}

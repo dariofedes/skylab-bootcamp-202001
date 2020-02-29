@@ -113,7 +113,6 @@ try{
 
 app.get('/search', (req, res) => {
     const { body: { query }, session: { token, acceptCookies, username } } = req
-    debugger
 
     searchVehicles(query, token)
         .then(results => res.send(App({ title: 'Results', body: Results({ results }), acceptCookies })))

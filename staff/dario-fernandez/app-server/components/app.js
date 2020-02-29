@@ -14,6 +14,7 @@ function App(props) {
     <title>${title}</title>
 </head>
 <body>
+    <h1 class=""></h1>
     ${body}
     ${!acceptCookies ? Cookies() : ''}
 </body>
