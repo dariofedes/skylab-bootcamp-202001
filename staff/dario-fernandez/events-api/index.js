@@ -9,7 +9,16 @@ const { name, version } = require('./package')
 const jsonBodyParser = bodyParser.json()
 const { database } = require('./data')
 const { jwtVerifierMidWare } = require('./mid-wares')
-const { registerUser, authenticateUser, retrieveUser, createEvent, retrievePublishedEvents, retrieveLastEvents, subscribeEvent, retrieveSubscribedEvents } = require('./routes')
+const { registerUser,
+    authenticateUser,
+    retrieveUser,
+    createEvent,
+    retrievePublishedEvents,
+    retrieveLastEvents,
+    subscribeEvent,
+    retrieveSubscribedEvents,
+    updateEvent 
+} = require('./routes')
 
 database.connect(MONGODB_URL)
     .then(() => {
@@ -38,6 +47,8 @@ database.connect(MONGODB_URL)
         app.patch('/users/:id/events', jwtVerifierMidWare, jsonBodyParser, subscribeEvent)
 
         app.get('/users/:id/subs', jwtVerifierMidWare, retrieveSubscribedEvents)
+
+        app.patch('/events', jwtVerifierMidWare, jsonBodyParser, updateEvent)
 
         app.listen(port, () => logger.info(`server ${name} ${version} up and listening in port ${port}`))
         
