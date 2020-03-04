@@ -7,7 +7,7 @@ const winston = require('winston')
 const bodyParser = require('body-parser')
 const { name, version } = require('./package')
 const jsonBodyParser = bodyParser.json()
-const { database } = require('./data')
+const mongoose = require('mongoose')
 const { jwtVerifierMidWare } = require('./mid-wares')
 const { registerUser,
     authenticateUser,
@@ -17,44 +17,44 @@ const { registerUser,
     retrieveLastEvents,
     subscribeEvent,
     retrieveSubscribedEvents,
-    updateEvent 
+    updateEvent  
 } = require('./routes')
 
-database.connect(MONGODB_URL)
-    .then(() => {
-        const logger = winston.createLogger({
-            level: env === 'development' ? 'debug' : 'info',
-            format: winston.format.json(),
-            transports: [
-                new winston.transports.File({ filename: 'server.log' })
-            ]
-        })
-        
-        const app = express()
+const logger = winston.createLogger({
+    level: env === 'development' ? 'debug' : 'info',
+    format: winston.format.json(),
+    transports: [
+        new winston.transports.File({ filename: 'server.log' })
+    ]
+})
 
-        app.post('/users', jsonBodyParser, registerUser)
+mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connection.once('open', () => logger.info('connected to database'))
 
-        app.post('/auth', jsonBodyParser, authenticateUser)
+const app = express()
 
-        app.get('/users', jwtVerifierMidWare, retrieveUser)
+app.post('/users', jsonBodyParser, registerUser)
 
-        app.post('/users/:id/events', jwtVerifierMidWare, jsonBodyParser, createEvent)
-        
-        app.get('/users/:id/events', jwtVerifierMidWare, retrievePublishedEvents)
+app.post('/auth', jsonBodyParser, authenticateUser)
 
-        app.get('/events', retrieveLastEvents)
+app.get('/users', jwtVerifierMidWare, retrieveUser)
 
-        app.patch('/users/:id/events', jwtVerifierMidWare, jsonBodyParser, subscribeEvent)
+app.post('/users/:id/events', jwtVerifierMidWare, jsonBodyParser, createEvent)
 
-        app.get('/users/:id/subs', jwtVerifierMidWare, retrieveSubscribedEvents)
+app.get('/users/:id/events', jwtVerifierMidWare, retrievePublishedEvents)
 
-        app.patch('/events', jwtVerifierMidWare, jsonBodyParser, updateEvent)
+app.get('/events', retrieveLastEvents)
 
-        app.listen(port, () => logger.info(`server ${name} ${version} up and listening in port ${port}`))
-        
-        process.on('SIGINT', () => {
-            logger.info('server abruptly stopped')
-            
-            process.exit(0)
-        })
-    })
+app.patch('/users/:id/events', jwtVerifierMidWare, jsonBodyParser, subscribeEvent)
+
+app.get('/users/:id/subs', jwtVerifierMidWare, retrieveSubscribedEvents)
+
+app.patch('/events', jwtVerifierMidWare, jsonBodyParser, updateEvent)
+
+app.listen(port, () => logger.info(`server ${name} ${version} up and listening in port ${port}`))
+
+process.on('SIGINT', () => {
+    logger.info('server abruptly stopped')
+    
+    process.exit(0)
+})

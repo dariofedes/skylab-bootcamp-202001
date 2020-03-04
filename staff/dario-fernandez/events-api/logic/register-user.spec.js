@@ -3,14 +3,14 @@ require('dotenv').config()
 const { env: { MONGODB_TEST_URL } } = process
 const { expect } = require('chai')
 const { registerUser } = require('./index')
-const { database, database: { ObjectId } } = require('../data')
+const mongoose = require('mongoose')
+const { models: { User } } = require('../data')
 
 describe('registerUser', () => {
     let name, surname, email, password, users
 
     before(() => {
-        return database.connect(MONGODB_TEST_URL)
-            .then(() => users = database.collection('users'))
+        return mongoose.connect(MONGODB_TEST_URL, { useUnifiedTopology: true, useNewUrlParser: true })
     })
 
     beforeEach(() => {
@@ -30,7 +30,7 @@ describe('registerUser', () => {
     it('should succeed on correct data', () => {
         registerUser(name, surname, email, password)
             .then(() => {
-                return users.findOne({ email })
+                return User.findOne({ email })
             })
             .then(user => {
                 expect(user).to.exist
@@ -72,7 +72,7 @@ describe('registerUser', () => {
     // })
 
     after(() => {
-        return users.deleteMany({})
-            .then(() => database.disconnect())
+        return User.deleteMany({})
+            .then(() => mongoose.disconnect())
     })
 })

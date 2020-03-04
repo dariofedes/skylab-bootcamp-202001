@@ -2,15 +2,15 @@ require('dotenv').config()
 
 const { env: { MONGODB_TEST_URL } } = process
 const authenticateUser = require('./authenticate-user')
-const { database, models: { User } } = require('../data')
+const mongoose = require('mongoose') 
+const { models: { User } } = require('../data')
 const { expect } = require('chai')
 
 describe('authenticateUser', () => {
-    let name, surname, email, password, users, user
+    let name, surname, email, password, user
 
     before(() => {
-        return database.connect(MONGODB_TEST_URL)
-            .then(() => users = database.collection('users'))
+        return mongoose.connect(MONGODB_TEST_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     })
     beforeEach(() => {
         name = `name-${Math.random()}`
@@ -20,23 +20,25 @@ describe('authenticateUser', () => {
 
         user = new User({ name, surname, email, password })
 
-        users.insertOne(user)
+        return user.save()
     })
 
     it('should succeed on correct creentials', () => {
-        return authenticateUser(email, password)
-            .then(id => {
-                expect(id).to.exist
-            })
-    })
-
-    it('should return a token that is a string', () => {
         return authenticateUser(email, password)
             .then(id => {
                 expect(id).to.be.a('string')
             })
     })
 
+    it('should save the last authentication date', () => {
+        return authenticateUser(email, password)
+            .then(id => {
+                return User.findOne({ _id: id })
+            })
+            .then(({ authenticated }) => {
+                expect(authenticated).to.be.an.instanceof(Date)
+            })
+    })
     // it('should return a valid id', () => {
     //     authenticateUser(email, password)
     //         .then(id => {
@@ -75,7 +77,7 @@ describe('authenticateUser', () => {
     // })
 
     after(() => {
-        users.deleteMany({})
-            .then(() => database.disconnect())
+        User.deleteMany({})
+            .then(() => mongoose.disconnect())
     })
 })

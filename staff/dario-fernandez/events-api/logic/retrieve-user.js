@@ -1,22 +1,17 @@
-const { database, database: { ObjectId } } = require('../data')
+const { models: { User } } = require('../data')
 const { validate } = require('../utils')
 
 module.exports = function(id) {
     validate.string(id, 'id')
 
-    
 
-    const _id = new ObjectId(id)
-    const users = database.collection('users')
-
-    return users.findOne({ _id })
+    return User.findById(id)
         .then(user => {
             if(!user) throw new Error('user not found')
 
-            return users.updateOne({ _id }, { $set: { lastRetrieved: new Date } })
-                .then(() => {
-                    const { name, surname, email } = user
-                    return { name, surname, email }
-                })
+            user.retrieved = new Date
+
+            return user.save()
         })
+        .then(({ name, surname, email }) => ({ name, surname, email }))
 }

@@ -1,4 +1,6 @@
-const { database, database: { ObjectId }, models: { Event } } = require('../data')
+const { models: { Event, User } } = require('../data')
+const mongoose = require('mongoose')
+const { SchemaType: { ObjectId } } = mongoose
 const { validate } = require('../utils')
 
 module.exports = function(publisher, title, description, location, date) {
@@ -8,8 +10,21 @@ module.exports = function(publisher, title, description, location, date) {
     validate.string(location, 'location')
     validate.type(date, 'date', Date)
 
-    const events = database.collection('events')
+    const event = new Event({ title, description, location, date, publisher }) 
 
-    return events.insertOne(new Event({ publisher: ObjectId(publisher), title, description, location, date }))
-        .then(({ insertedId }) => insertedId.toString())
+    return event.save()
+        .then(({ _id, publisher }) => {
+            return User.findOne({ _id: publisher })
+                .then(user => {
+                    if(user.publishedEvents){
+                        user.publishedEvents.push(_id)
+                    } else {
+                        user.publishedEvents = [_id]
+                    }
+
+                    return user.save()
+                        .then(() => _id)
+                        
+                })
+        })
 }

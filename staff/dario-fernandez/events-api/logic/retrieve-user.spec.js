@@ -1,16 +1,16 @@
 require('dotenv').config()
 
 const { env: { MONGODB_TEST_URL } } = process
-const { retrieveUser } = require('../logic')
-const { database, models: { User } } = require('../data')
+const retrieveUser = require('./retrieve-user')
+const mongoose = require('mongoose') 
+const { models: { User } } = require('../data')
 const { expect } = require('chai')
 
 describe('retrieveUser', () =>{
-    let name, surname, email, password, id, users
+    let name, surname, email, password, userId
 
     before(() => {
-        return database.connect(MONGODB_TEST_URL)
-            .then(() => users = database.collection('users'))
+        return mongoose.connect(MONGODB_TEST_URL)
     })
 
     beforeEach(() => {
@@ -21,16 +21,14 @@ describe('retrieveUser', () =>{
 
         user = new User({ name, surname, email, password })
 
-        return users.insertOne(user)
-            .then(inserted => id = inserted.insertedId.toString())
+        return user.save()
+            .then(({ id }) => userId = id.toString())
 
     })
 
     it('should not throw on valid id', () => {
-        return retrieveUser(id)
-            .then(userInfo => {
-                debugger
-                const { name: _name, surname: _surname, email: _email } = userInfo
+        return retrieveUser(userId)
+            .then(({ name: _name, surname: _surname, email: _email }) => {
                 expect(_name).to.equal(name)
                 expect(_surname).to.equal(surname)
                 expect(_email).to.equal(email)
@@ -57,7 +55,7 @@ describe('retrieveUser', () =>{
     // })
 
     after(() => {
-        return users.deleteMany({})
-            .then(() => database.disconnect())
+        return User.deleteMany({})
+            .then(() => mongoose.disconnect())
     })
 })

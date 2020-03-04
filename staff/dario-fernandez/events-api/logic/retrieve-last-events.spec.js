@@ -5,7 +5,7 @@ const retrieveLastEvents = require('./retrieve-last-events')
 const { database, models: { Event }, database: { ObjectId } } = require('../data')
 const { expect } = require('chai')
 
-describe.only('retrieveLastEvents', () =>{
+describe('retrieveLastEvents', () =>{
     let title, description, location, date, events
     const id = '5e5a6fe6afb09e1e5e35fb94'
 

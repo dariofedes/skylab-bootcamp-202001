@@ -4,6 +4,7 @@ module.exports = function(req, res) {
     const { payload: { sub: id } } = req
 
     try {
+        debugger
         retrieveUser(id)
             .then(userInfo =>
                 res.status(200).json(userInfo)
